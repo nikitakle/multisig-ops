@@ -97,8 +97,8 @@ def generate_deployment_deduped_map(permission_data):
         callerNames = list(permission["Authorized_Caller_Names"])
         callerAddresses = list(permission["Authorized_Caller_Addresses"])
 
-        results[contract][fx]["callerNames"] = set(callerAddresses + list(results[contract][fx]["callerNames"]))
-        results[contract][fx]["callerAddresses"] = set(callerNames + list(results[contract][fx]["callerAddresses"]))
+        results[contract][fx]["callerNames"] = set(callerNames + list(results[contract][fx]["callerNames"]))
+        results[contract][fx]["callerAddresses"] = set(callerAddresses + list(results[contract][fx]["callerAddresses"]))
     return dict(results)
 
 
