@@ -28,15 +28,16 @@ def monorepo_names_by_address(chain_name):
     data = response.json()
     for address, info in data.items():
         monorepo_names[address] = info["name"]
-    for name, address in r.balancer.multisgs.items():
+    for name, address in r.balancer.multisigs.items():
+        print(name)
         monorepo_names[address] = name
     return monorepo_names
+
 
 
 def build_chain_permissions_list(chain_name):
     r = get_registry_by_chain_id(1) #TODO make chain sensitive
     results= []
-    unknown_
     address_names = monorepo_names_by_address(chain_name)
     action_ids_list = f"https://raw.githubusercontent.com/balancer-labs/balancer-v2-monorepo/master/pkg/deployments/action-ids/{chain_name}/action-ids.json"
     w3 = w3_by_chain[chain_name]
@@ -74,17 +75,20 @@ def build_chain_permissions_list(chain_name):
 
 def output_list(permission_data, output_name):
     df = pd.DataFrame(permission_data)
-    with open(f"{output_name}.md", "w") as f:
+    with open(f"./reports/{output_name}.md", "w") as f:
         df.to_markdown(buf=f, index=False)
-    with open(f"{output_name}.csv", "w") as f:
+    with open(f"./reports/{output_name}.csv", "w") as f:
         df.to_csv(f, index=False)
+    registry = monorepo_names_by_address("mainnet")
+    with open(f"./reports/{output_name}-registry.json", "w") as f:
+        json.dump(registry, f)
 
 def main():
     #permissions = build_chain_permissions_list("mainnet")
-    #with open(f"perm_dump_mainnet.json", "w") as f:
+    #with open(f"./reports/perm_dump_mainnet.json", "w") as f:
     #    json.dump(permissions, f)
-    with open(f"reports/perm_dump_mainnet.json", "r") as f:
-        output_list(json.load(f), "mainnet-dump")
+    with open(f"./reports/perm_dump_mainnet.json", "r") as f:
+        output_list(json.load(f), "mainnet-permissions")
 
 
 if __name__ == "__main__":
