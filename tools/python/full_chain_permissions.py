@@ -19,9 +19,16 @@ w3_by_chain ={
     "gnosis" :Web3(Web3.HTTPProvider(f"https://rpc.gnosischain.com/"))
 }
 
+ALL_CHAINS_MAP = {
+        "mainnet": 1,
+        "polygon": 137,
+        "arbitrum": 42161,
+        "optimism": 10,
+        "gnosis": 100
+}
 
 def monorepo_names_by_address(chain_name):
-    r = get_registry_by_chain_id(1) #todo adapt to handle given chain
+    r = get_registry_by_chain_id(ALL_CHAINS_MAP[chain_name]) #todo adapt to handle given chain
     monorepo_names = {}
     response = requests.get(
         f"https://raw.githubusercontent.com/balancer-labs/balancer-v2-monorepo/master/pkg/deployments/addresses/{chain_name}.json")
@@ -36,7 +43,7 @@ def monorepo_names_by_address(chain_name):
 
 
 def build_chain_permissions_list(chain_name):
-    r = get_registry_by_chain_id(1) #TODO make chain sensitive
+    r = get_registry_by_chain_id(ALL_CHAINS_MAP[chain_name]) #TODO make chain sensitive
     results= []
     address_names = monorepo_names_by_address(chain_name)
     action_ids_list = f"https://raw.githubusercontent.com/balancer-labs/balancer-v2-monorepo/master/pkg/deployments/action-ids/{chain_name}/action-ids.json"
@@ -84,11 +91,11 @@ def output_list(permission_data, output_name):
         json.dump(registry, f)
 
 def main():
-    #permissions = build_chain_permissions_list("mainnet")
-    #with open(f"./reports/perm_dump_mainnet.json", "w") as f:
-    #    json.dump(permissions, f)
-    with open(f"./reports/perm_dump_mainnet.json", "r") as f:
-        output_list(json.load(f), "mainnet-permissions")
+    permissions = build_chain_permissions_list("gnosis")
+    with open(f"./reports/perm_dump_gnosis.json", "w") as f:
+        json.dump(permissions, f)
+    with open(f"./reports/perm_dump_gnosis.json", "r") as f:
+        output_list(json.load(f), "gnosis-permissions")
 
 
 if __name__ == "__main__":
