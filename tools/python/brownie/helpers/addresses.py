@@ -269,7 +269,7 @@ ADDRESSES_ARBITRUM = {
             "feeManager": "0x7c68c42De679ffB0f16216154C996C354cF1161B", # fees is feeManager on Arbitrum
             "emergency": "0xf404C5a0c02397f0908A3524fc5eb84e68Bbe60D"
         },
-        "authorizer": "0xA331D84eC860Bf466b4CdCcFb4aC09a1B43F3aE6",
+        "Authorizer": "0xA331D84eC860Bf466b4CdCcFb4aC09a1B43F3aE6",
         "authorizer": "0xA331D84eC860Bf466b4CdCcFb4aC09a1B43F3aE6", # TODO retire
         "poolRecoveryHelper": "0xb5e56CC3d2e38e53b1166175C59e921A37cDC1E2"  #https://github.com/balancer-labs/balancer-v2-monorepo/blob/master/pkg/deployments/tasks/20221123-pool-recovery-helper/output/arbitrum.json
     },

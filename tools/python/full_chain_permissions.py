@@ -38,7 +38,6 @@ def monorepo_names_by_address(chain_name):
     for address, info in data.items():
         monorepo_names[address] = info["name"]
     for name, address in r.balancer.multisigs.items():
-        print(name)
         monorepo_names[address] = name
     return monorepo_names
 
@@ -92,13 +91,17 @@ def generate_deployment_deduped_map(permission_data):
         if fx not in results[contract].keys():
             results[contract][fx] = {
                 "callerNames": [],
-                "callerAddresses": []
+                "callerAddresses": [],
+                "deployments": []
             }
         callerNames = list(permission["Authorized_Caller_Names"])
         callerAddresses = list(permission["Authorized_Caller_Addresses"])
+        deployments = [permission["Deployment"]]
 
         results[contract][fx]["callerNames"] = set(callerNames + list(results[contract][fx]["callerNames"]))
         results[contract][fx]["callerAddresses"] = set(callerAddresses + list(results[contract][fx]["callerAddresses"]))
+        results[contract][fx]["deployments"] = set(deployments + list(results[contract][fx]["deployments"]))
+
     return dict(results)
 
 
@@ -110,7 +113,8 @@ def deployment_deduped_map_to_list(deployment_map):
                 "function": fx.split("(")[0],
                 "contract": contract,
                 "callerNames": callers["callerNames"],
-                "callerAddresses": callers["callerAddresses"]
+                "callerAddresses": callers["callerAddresses"],
+                "deployments": callers["deployments"]
             })
     return result
 
@@ -132,13 +136,13 @@ def output_list(permission_data, output_name):
         dedup.to_markdown(buf=f, index=False)
 
 
-def main():
-    #permissions = build_chain_permissions_list("mainnet")
-    #with open(f"./reports/perm_dump_mainnet.json", "w") as f:
-    #    json.dump(permissions, f)
-    with open(f"./reports/perm_dump_mainnet.json", "r") as f:
+def main(chain="mainnet"):
+    permissions = build_chain_permissions_list(chain)
+    with open(f"./reports/perm_dump_{chain}.json", "w") as f:
+        json.dump(permissions, f)
+    with open(f"./reports/perm_dump_{chain}.json", "r") as f:
         permissions = json.load(f)
-        output_list(permissions, "gnosis-permissions")
+        output_list(permissions, f"{chain}-permissions")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,4 @@
-Fx,Contract,Deployment,Authorized_Caller_Addresses,Authorized _Caller_Names
+Fx,Contract,Deployment,Authorized_Caller_Addresses,Authorized_Caller_Names
 "batchSwap(uint8,(bytes32,uint256,uint256,uint256,bytes)[],address[],(address,bool,address,bool),int256[],uint256)",Vault,20210418-vault,"['0xdcdbf71A870cc60C6F9B621E28a7D3Ffd6Dd4965', '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110', '0xAc9f49eF3ab0BbC929f7b1bb0A17E1Fca5786251', '0x886A3Ec7bcC508B8795990B60Fa21f85F9dB7948', '0x2536dfeeCB7A0397CF98eDaDA8486254533b1aFA']","['LidoRelayer', 'undef', 'BalancerRelayer', 'BalancerRelayer', 'BalancerRelayer']"
 "batchSwap(uint8,(bytes32,uint256,uint256,uint256,bytes)[],address[],(address,bool,address,bool),int256[],uint256)",Vault,20210418-vault,"['0xdcdbf71A870cc60C6F9B621E28a7D3Ffd6Dd4965', '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110', '0xAc9f49eF3ab0BbC929f7b1bb0A17E1Fca5786251', '0x886A3Ec7bcC508B8795990B60Fa21f85F9dB7948', '0x2536dfeeCB7A0397CF98eDaDA8486254533b1aFA']","['LidoRelayer', 'undef', 'BalancerRelayer', 'BalancerRelayer', 'BalancerRelayer']"
 "batchSwap(uint8,(bytes32,uint256,uint256,uint256,bytes)[],address[],(address,bool,address,bool),int256[],uint256)",Vault,20210418-vault,"['0xdcdbf71A870cc60C6F9B621E28a7D3Ffd6Dd4965', '0xC92E8bdf79f0507f65a392b0ab4667716BFE0110', '0xAc9f49eF3ab0BbC929f7b1bb0A17E1Fca5786251', '0x886A3Ec7bcC508B8795990B60Fa21f85F9dB7948', '0x2536dfeeCB7A0397CF98eDaDA8486254533b1aFA']","['LidoRelayer', 'undef', 'BalancerRelayer', 'BalancerRelayer', 'BalancerRelayer']"
@@ -131,11 +131,13 @@ addEthereumGauge(address),GaugeAdder,20230109-gauge-adder-v3,['0xc38c5f97B34E175
 addOptimismGauge(address),GaugeAdder,20230109-gauge-adder-v3,['0xc38c5f97B34E175FFd35407fc91a937300E33860'],['lm']
 addPolygonGauge(address),GaugeAdder,20230109-gauge-adder-v3,['0xc38c5f97B34E175FFd35407fc91a937300E33860'],['lm']
 disable(),WeightedPoolFactory,20230206-weighted-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
-enableRecoveryMode(),WeightedPool,20230206-weighted-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
+enableRecoveryMode(),WeightedPool,20230206-weighted-pool-v3,"['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888', '0x1b300C86980a5195bCF49bD419A068D98dC133Db']","['emergency', 'PoolRecoveryHelper']"
+enableRecoveryMode(),WeightedPool,20230206-weighted-pool-v3,"['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888', '0x1b300C86980a5195bCF49bD419A068D98dC133Db']","['emergency', 'PoolRecoveryHelper']"
 pause(),WeightedPool,20230206-weighted-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
 setSwapFeePercentage(uint256),WeightedPool,20230206-weighted-pool-v3,['0xE4a8ed6c1D8d048bD29A00946BFcf2DB10E7923B'],['undef']
 disable(),ComposableStablePoolFactory,20230206-composable-stable-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
-enableRecoveryMode(),ComposableStablePool,20230206-composable-stable-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
+enableRecoveryMode(),ComposableStablePool,20230206-composable-stable-pool-v3,"['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888', '0x1b300C86980a5195bCF49bD419A068D98dC133Db']","['emergency', 'PoolRecoveryHelper']"
+enableRecoveryMode(),ComposableStablePool,20230206-composable-stable-pool-v3,"['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888', '0x1b300C86980a5195bCF49bD419A068D98dC133Db']","['emergency', 'PoolRecoveryHelper']"
 pause(),ComposableStablePool,20230206-composable-stable-pool-v3,['0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888'],['emergency']
 setSwapFeePercentage(uint256),ComposableStablePool,20230206-composable-stable-pool-v3,['0xE4a8ed6c1D8d048bD29A00946BFcf2DB10E7923B'],['undef']
 "startAmplificationParameterUpdate(uint256,uint256)",ComposableStablePool,20230206-composable-stable-pool-v3,['0xf4A80929163C5179Ca042E1B292F5EFBBE3D89e6'],['feeManager']
