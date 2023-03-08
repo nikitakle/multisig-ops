@@ -90,6 +90,11 @@ def generate_deployment_deduped_map(permission_data):
     for permission in permission_data:
         contract = permission["Contract"]
         fx = permission["Fx"]
+        if contract.endswith("Pool"):
+            contract = "Pool"
+        if contract.endswith("PoolFactory"):
+            contract = "PoolFactory"
+
         if contract not in results.keys():
             results[contract] = {}
         if fx not in results[contract].keys():
