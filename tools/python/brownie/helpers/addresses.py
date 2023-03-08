@@ -44,7 +44,9 @@ ADDRESSES_ETH = {
             "karpatkey": "0x0EFcCBb9E2C09Ea29551879bd9Da32362b32fc89",
             "emergency": "0xA29F61256e948F3FB707b4b3B138C5cCb9EF9888",
             "maxi_ops": "0x166f54F44F271407f24AA1BE415a730035637325",
-            "blabs_ops": "0x02f35dA6A02017154367Bc4d47bb6c7D06C7533B"
+            "blabs_ops": "0x02f35dA6A02017154367Bc4d47bb6c7D06C7533B",
+            "linear_pool_ops": "0x75a52c0e32397A3FC0c052E2CeB3479802713Cf4",
+
         },
         "signers": {
             "maxis": {
@@ -69,6 +71,9 @@ ADDRESSES_ETH = {
             "zendragon": "0x854B004700885A61107B458f11eCC169A019b764",
             "mikeb": "0xc4591c41e01a7a654b5427f39bbd1dee5bd45d1d",
             "tritium": "0x53a806789BBfd366d9dEB9Cbe5d622089e845fdb"
+        },
+        "relayers": {
+            "cowswapGPv2": "0xC92E8bdf79f0507f65a392b0ab4667716BFE0110"
         },
         "vault": "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
         "gauge_factory": "0x4E7bBd911cf1EFa442BC1b2e9Ea01ffE785412EC",

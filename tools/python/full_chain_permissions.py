@@ -39,6 +39,10 @@ def monorepo_names_by_address(chain_name):
         monorepo_names[address] = info["name"]
     for name, address in r.balancer.multisigs.items():
         monorepo_names[address] = name
+    for name, address in r.balancer.relayers.items():
+        monorepo_names[address] = name
+    monorepo_names["0xE4a8ed6c1D8d048bD29A00946BFcf2DB10E7923B"] = "GauntletFeeSetter" # TODO figure something better out
+    monorepo_names["0x5efBb12F01f27F0E020565866effC1dA491E91A4"] = "GaugeAdder"
     return monorepo_names
 
 
@@ -120,13 +124,13 @@ def deployment_deduped_map_to_list(deployment_map):
 
 
 
-def output_list(permission_data, output_name):
+def output_list(permission_data, output_name, chain):
     df = pd.DataFrame(permission_data)
     with open(f"./reports/{output_name}.md", "w") as f:
         df.to_markdown(buf=f, index=False)
     with open(f"./reports/{output_name}.csv", "w") as f:
         df.to_csv(f, index=False)
-    registry = monorepo_names_by_address("gnosis")
+    registry = monorepo_names_by_address(chain)
     with open(f"./reports/{output_name}-registry.json", "w") as f:
         json.dump(registry, f)
     dedup = pd.DataFrame(deployment_deduped_map_to_list(generate_deployment_deduped_map(permission_data)))
@@ -142,7 +146,7 @@ def main(chain="mainnet"):
         json.dump(permissions, f)
     with open(f"./reports/perm_dump_{chain}.json", "r") as f:
         permissions = json.load(f)
-        output_list(permissions, f"{chain}-permissions")
+        output_list(permissions, f"{chain}-permissions", chain)
 
 if __name__ == "__main__":
     main()
