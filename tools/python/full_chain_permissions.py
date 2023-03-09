@@ -119,15 +119,25 @@ def generate_deployment_deduped_map(permission_data):
 
 def deployment_deduped_map_to_list(deployment_map):
     result = []
+    need_description = []
+    with open(f"../../BIPs/00batched/authorizer/func_desc_by_name.json", "r") as f:
+        description_by_function = json.load(f)
     for contract, fxdata in deployment_map.items():
         for fx, callers in fxdata.items():
+            try:
+                description = description_by_function[fx]
+            except:
+                description = "Not Found"
+                need_description.append(fx)
             result.append({
                 "function": fx.split("(")[0],
                 "contract": contract,
                 "callerNames": callers["callerNames"],
                 "callerAddresses": callers["callerAddresses"],
-                "deployments": callers["deployments"]
+                "deployments": callers["deployments"],
+                "description": description
             })
+    print(set(need_description))
     return result
 
 
@@ -149,9 +159,9 @@ def output_list(permission_data, output_name, chain):
 
 
 def main(chain="mainnet"):
-    permissions = build_chain_permissions_list(chain)
-    with open(f"./reports/perm_dump_{chain}.json", "w") as f:
-        json.dump(permissions, f)
+    #permissions = build_chain_permissions_list(chain)
+    #with open(f"./reports/perm_dump_{chain}.json", "w") as f:
+    #    json.dump(permissions, f)
     with open(f"./reports/perm_dump_{chain}.json", "r") as f:
         permissions = json.load(f)
         output_list(permissions, f"{chain}-permissions", chain)
