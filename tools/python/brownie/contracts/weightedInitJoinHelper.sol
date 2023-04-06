@@ -41,7 +41,12 @@ contract WeightedPoolInitHelper {
         });
 
         // Call the joinPool function
-        vault.joinPool(poolId, msg.sender, msg.sender, request);
+        for (uint8 i=0; i < tokenAddresses.length; i++) {
+            IERC20 t = IERC20(tokenAddresses[i]);
+            t.transferFrom(msg.sender, address(this), amountsPerToken[i]);
+            t.approve(address(vault), amountsPerToken[i]);
+        }
+        vault.joinPool(poolId, address(this), msg.sender, request);
     }
 
 
