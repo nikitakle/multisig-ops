@@ -57,7 +57,7 @@ interface IGPv2Settlement {
     ) external returns (bytes memory response);
 
     function swap(
-        IVault.BatchSwapStep[] memory swaps,
+        IVaultCow.BatchSwapStep[] memory swaps,
         address[] memory tokens,
         GPv2Trade.Data memory trade
     ) external;
@@ -93,7 +93,7 @@ interface GPv2Interaction {
     }
 }
 
-interface IVault {
+interface IVaultCow {
     struct BatchSwapStep {
         bytes32 poolId;
         uint256 assetInIndex;
