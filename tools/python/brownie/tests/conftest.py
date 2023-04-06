@@ -20,45 +20,45 @@ WEIGHTED_POOL_FACTORY = "0xc7E5ED1054A24Ef31D827E6F86caA58B3Bc168d7"  ## V4 on A
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def ordered_token_list(ldo, weth):
     return [ldo.address, weth.address]
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def unordered_token_list(ldo,weth):
     return [weth.address, ldo.address]
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def whale():
     return WHALE
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def vault():
     return interface.IVault(VAULT_ADDRESS)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def caller():
     return accounts[0]
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def factory(deploy):
     return Contract(WEIGHTED_POOL_FACTORY)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def ldo():
     return interface.IERC20(LDO_ADDRESS)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def weth():
     return interface.IERC20(WETH_ADDRESS)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def pool(ordered_token_list, caller, factory, weth, ldo):
     weth.approve(factory, 100*10**18, {"from": caller})
     ldo.approve(factory, 100*10**18, {"from": caller})
@@ -69,12 +69,12 @@ def pool(ordered_token_list, caller, factory, weth, ldo):
     return pool
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def helper(deploy):
     return deploy
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def deploy(caller, vault, ldo, weth, whale):
     """
     Deploys, vault and test strategy, mock token and wires them up.

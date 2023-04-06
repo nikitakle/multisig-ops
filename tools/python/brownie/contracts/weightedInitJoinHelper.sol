@@ -28,16 +28,15 @@ contract WeightedPoolInitHelper {
         uint256[] memory amountsPerToken
     ) public {
         require(tokenAddresses.length == amountsPerToken.length, "Arrays of different length");
-        (address[] memory sortedAddresses, uint256[] memory sortedAmounts) = sortAddressesByAmounts(tokenAddresses, amountsPerToken);
-        IAsset[] memory tokens = toIAssetArray(sortedAddresses);
+        IAsset[] memory tokens = toIAssetArray(tokenAddresses);
 
         // The 0 as the first argument represents an init join
-        bytes memory userData = abi.encode(0, sortedAmounts);
+        bytes memory userData = abi.encode(0, amountsPerToken);
 
         // Construct the JoinPoolRequest struct
         IVault.JoinPoolRequest memory request = IVault.JoinPoolRequest({
             assets: tokens,
-            maxAmountsIn: sortedAmounts,
+            maxAmountsIn: amountsPerToken,
             userData: userData,
             fromInternalBalance: false
         });
