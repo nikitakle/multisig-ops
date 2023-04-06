@@ -27,15 +27,17 @@ contract WeightedPoolInitHelper {
         address[] memory tokenAddresses,
         uint256[] memory amountsPerToken
     ) public {
-        IAsset[] memory tokens = toIAssetArray(tokenAddresses);
+        require(tokenAddresses.length == amountsPerToken.length, "Arrays of different length");
+        (address[] memory sortedAddresses, uint256[] memory sortedAmounts) = sortAddressesByAmounts(tokenAddresses, amountsPerToken);
+        IAsset[] memory tokens = toIAssetArray(sortedAddresses);
 
         // The 0 as the first argument represents an init join
-        bytes memory userData = abi.encode(0, amountsPerToken);
+        bytes memory userData = abi.encode(0, sortedAmounts);
 
         // Construct the JoinPoolRequest struct
         IVault.JoinPoolRequest memory request = IVault.JoinPoolRequest({
             assets: tokens,
-            maxAmountsIn: amountsPerToken,
+            maxAmountsIn: sortedAmounts,
             userData: userData,
             fromInternalBalance: false
         });
@@ -62,4 +64,26 @@ contract WeightedPoolInitHelper {
         }
         return assets;
     }
+
+    function sortAddressesByAmounts(address[] memory addresses, uint256[] memory amounts) public returns (address[] memory, uint256[] memory) {
+    uint256 n = addresses.length;
+    for (uint256 i = 0; i < n - 1; i++) {
+        for (uint256 j = 0; j < n - i - 1; j++) {
+            if (addresses[j] > addresses[j + 1]) {
+                address tempAddress = addresses[j];
+                addresses[j] = addresses[j + 1];
+                addresses[j + 1] = tempAddress;
+                uint256 tempAmount = amounts[j];
+                amounts[j] = amounts[j + 1];
+                amounts[j + 1] = tempAmount;
+            }
+        }
+    }
+    return (addresses, amounts);
+    }
+
 }
+
+
+
+

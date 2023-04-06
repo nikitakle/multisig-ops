@@ -21,9 +21,12 @@ ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
 
 @pytest.fixture(scope="module")
-def token_list(ldo, weth):
+def ordered_token_list(ldo, weth):
     return [ldo.address, weth.address]
 
+@pytest.fixture(scope="module")
+def unordered_token_list(ldo,weth):
+    return [weth.address, ldo.address]
 
 @pytest.fixture(scope="module")
 def whale():
@@ -56,10 +59,10 @@ def weth():
 
 
 @pytest.fixture(scope="module")
-def pool(token_list, caller, factory, weth, ldo):
+def pool(ordered_token_list, caller, factory, weth, ldo):
     weth.approve(factory, 100*10**18, {"from": caller})
     ldo.approve(factory, 100*10**18, {"from": caller})
-    tx = factory.create("test pool", "BPT-TEST", token_list, [500000000000000000, 500000000000000000], [ZERO_ADDRESS, ZERO_ADDRESS], 3000000000000000, caller, 0, {"from": caller})
+    tx = factory.create("test pool", "BPT-TEST", ordered_token_list, [500000000000000000, 500000000000000000], [ZERO_ADDRESS, ZERO_ADDRESS], 3000000000000000, caller, 0, {"from": caller})
     address = tx.events["PoolCreated"]["pool"]
     with open("abis/WeightedPool.json", "r") as f:
         pool = Contract.from_abi("WeightedPool", address, json.load(f))
