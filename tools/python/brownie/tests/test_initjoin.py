@@ -30,8 +30,7 @@ def test_use_orderer(helper, ldo, weth, pool, caller):
     ldo.approve(helper, 1000000000, {"from": caller})
     tokens = [weth, ldo]
     amounts = [10000000, 1000000000]
-    sortTx = helper.sortAddressesByAmounts(tokens, amounts)
-    sortTokens, sortAmounts = sortTx.return_value
+    sortTokens, sortAmounts = helper.sortAddressesByAmounts(tokens, amounts)
     tx = helper.initJoinWeightedPool(pool.getPoolId(), sortTokens, sortAmounts, {'from': caller})
     assert pool.balanceOf(caller) > 0
     return tx

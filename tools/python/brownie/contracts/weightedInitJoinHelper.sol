@@ -64,7 +64,7 @@ contract WeightedPoolInitHelper {
         return assets;
     }
 
-    function sortAddressesByAmounts(address[] memory addresses, uint256[] memory amounts) public returns (address[] memory, uint256[] memory) {
+    function sortAddressesByAmounts(address[] memory addresses, uint256[] memory amounts) public pure returns (address[] memory, uint256[] memory) {
     uint256 n = addresses.length;
     for (uint256 i = 0; i < n - 1; i++) {
         for (uint256 j = 0; j < n - i - 1; j++) {
