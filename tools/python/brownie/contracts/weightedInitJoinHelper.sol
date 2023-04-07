@@ -25,7 +25,7 @@ contract WeightedPoolInitHelper {
 
 
     /**
-      * @notice Easy Creation of a V4 weighted pool - using the factory directly saves a little gas
+     * @notice Easy Creation of a V4 weighted pool - using the factory directly saves a little gas
      * @param name The Long Name of the pool token - Normally like Balancer B-33WETH-33WBTC-34USDC Token
      * @param symbol The symbol - Normally like B-33WETH-33WBTC-34USDC
      * @param tokens An list of token addresses in the pool in ascending order (from 0 to f) - check the read functions
@@ -148,7 +148,7 @@ contract WeightedPoolInitHelper {
     }
 
 
-    function sortAddressesByAmounts(address[] memory addresses, uint256[] memory amounts) public pure returns (address[] memory, uint256[] memory) {
+    function sortAmountsByAddresses(address[] memory addresses, uint256[] memory amounts) public pure returns (address[] memory, uint256[] memory) {
     uint256 n = addresses.length;
     for (uint256 i = 0; i < n - 1; i++) {
         for (uint256 j = 0; j < n - i - 1; j++) {
@@ -165,6 +165,28 @@ contract WeightedPoolInitHelper {
     return (addresses, amounts);
     }
 
+    function sortEverythingByAddresses(address[] memory addresses, address[] memory rateProviders, uint256[] memory amounts, uint256[] memory weights) public pure returns (address[] memory, uint256[] memory, uint256[] memory) {
+    uint256 n = addresses.length;
+    for (uint256 i = 0; i < n - 1; i++) {
+        for (uint256 j = 0; j < n - i - 1; j++) {
+            if (addresses[j] > addresses[j + 1]) {
+                address tempAddress = addresses[j];
+                addresses[j] = addresses[j + 1];
+                addresses[j + 1] = tempAddress;
+                uint256 tempAmount = amounts[j];
+                amounts[j] = amounts[j + 1];
+                amounts[j + 1] = tempAmount;
+                uint256 tempWeight = weights[j];
+                weights[j] = weights[j + 1];
+                weights[j + 1] = tempWeight;
+                address tempRateProvider = rateProviders[j];
+                rateProviders[j] = rateProviders[j + 1];
+                rateProviders[j + 1] = tempRateProvider;
+            }
+        }
+    }
+    return (addresses, amounts, weights);
+    }
 }
 
 
