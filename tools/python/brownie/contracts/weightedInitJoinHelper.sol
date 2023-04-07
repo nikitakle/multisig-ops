@@ -42,9 +42,10 @@ contract WeightedPoolInitHelper {
         address[] memory rateProviders,
         uint256[] memory amountsPerToken,
         uint256[] memory  weightsFrom100,
-        uint256 swapFeeBPS
+        uint256 swapFeeBPS,
+        bytes32 somethingRandomForSalt
     ) public returns (address) {
-        address poolAddress = createWeightedPool(name, symbol, tokens, rateProviders,  weightsFrom100, swapFeeBPS);
+        address poolAddress = createWeightedPool(name, symbol, tokens, rateProviders,  weightsFrom100, swapFeeBPS, somethingRandomForSalt);
         IWeightedPool pool = IWeightedPool(poolAddress);
         bytes32 poolId = pool.getPoolId();
         initJoinWeightedPool(poolId, tokens, amountsPerToken);
@@ -102,22 +103,22 @@ contract WeightedPoolInitHelper {
         address[] memory tokens,
         address[] memory rateProviders,
         uint256[] memory weightsFrom100,
-        uint256 swapFeeBPS
+        uint256 swapFeeBPS,
+        bytes32 somethingRandomForSalt
     ) public returns (address) {
         // Check Stuff
         uint len = tokens.length;
-        require(len < 8, "Weighted pools can support max 8 tokens");
+        require(len <= 8, "Weighted pools can support max 8 tokens");
         require(len == weightsFrom100.length, "weightsFrom 100 not same len as tokens");
         require(len == rateProviders.length || rateProviders.length == 0, "rateProviders  not same len as tokens");
 
         // Transform Weights
         uint256 totalWeight;
-        uint256[] memory normalizedWeights = new uint256[](len);
         for (uint i=0; i < len; i++) {
+            weightsFrom100[i] = weightsFrom100[i] * 10 **16; // not renaming var to save local stack space
             totalWeight += weightsFrom100[i];
-            normalizedWeights[i] = weightsFrom100[i] * 10 **16;
         }
-        require(totalWeight == 100, "Total Pool Weight does not add up to 100");
+        require(totalWeight == 1e18, "Total Pool Weight does not add up to 100");
 
         // Replace empty array with zeroed out rate providers
         bool emptyRateProviders = rateProviders.length == 0;
@@ -128,9 +129,7 @@ contract WeightedPoolInitHelper {
         require(RateProviders.length == len);
         // Transform Fees
         require(swapFeeBPS >=1  && swapFeeBPS <= 1000, "Fees must be between 0.01%(1 BPS) and 10%(1000 BPS)");
-        uint256 swapFeePercentage = swapFeeBPS * 10 ** 14;
-        address poolAddress = factory.create(name, symbol, tokens, normalizedWeights, RateProviders, swapFeePercentage, DAO, 0);
-        return poolAddress;
+        return  factory.create(name, symbol, tokens, weightsFrom100, RateProviders, swapFeeBPS * 10 ** 14, DAO, somethingRandomForSalt);
     }
 
 

@@ -60,7 +60,7 @@ def weth():
 
 @pytest.fixture()
 def pool(ordered_token_list, caller, factory, helper, weth, ldo):
-    tx = helper.createWeightedPool("Test name", "TEST", ordered_token_list, [], [50, 50], 300)
+    tx = helper.createWeightedPool("Test name", "TEST", ordered_token_list, [], [50, 50], 300, b"salty")
     poolAddress = tx.events["PoolCreated"]["pool"]
     with open("abis/WeightedPool.json", "r") as f:
         pool = Contract.from_abi("WeightedPool", poolAddress, json.load(f))
