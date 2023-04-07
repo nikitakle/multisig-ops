@@ -44,7 +44,7 @@ def caller():
 
 
 @pytest.fixture()
-def factory(deploy):
+def factory():
     return Contract(WEIGHTED_POOL_FACTORY)
 
 
@@ -59,13 +59,11 @@ def weth():
 
 
 @pytest.fixture()
-def pool(ordered_token_list, caller, factory, weth, ldo):
-    weth.approve(factory, 100*10**18, {"from": caller})
-    ldo.approve(factory, 100*10**18, {"from": caller})
-    tx = factory.create("test pool", "BPT-TEST", ordered_token_list, [500000000000000000, 500000000000000000], [ZERO_ADDRESS, ZERO_ADDRESS], 3000000000000000, caller, 0, {"from": caller})
-    address = tx.events["PoolCreated"]["pool"]
+def pool(ordered_token_list, caller, factory, helper, weth, ldo):
+    tx = helper.createWeightedPool("Test name", "TEST", ordered_token_list, [], [50, 50], 300)
+    poolAddress = tx.events["PoolCreated"]["pool"]
     with open("abis/WeightedPool.json", "r") as f:
-        pool = Contract.from_abi("WeightedPool", address, json.load(f))
+        pool = Contract.from_abi("WeightedPool", poolAddress, json.load(f))
     return pool
 
 
@@ -75,7 +73,7 @@ def helper(deploy):
 
 
 @pytest.fixture()
-def deploy(caller, vault, ldo, weth, whale):
+def deploy(caller, vault, factory, ldo, weth, whale):
     """
     Deploys, vault and test strategy, mock token and wires them up.
     """
@@ -85,6 +83,7 @@ def deploy(caller, vault, ldo, weth, whale):
 
     helper = WeightedPoolInitHelper.deploy(
         vault,
+        factory,
         {"from": caller}
     )
 
