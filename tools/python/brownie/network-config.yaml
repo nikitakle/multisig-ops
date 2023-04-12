@@ -48,6 +48,13 @@ live:
         id: kotti
         host: https://www.ethercluster.com/kotti
         explorer: https://blockscout.com/etc/kotti/api
+  - name: Gnosis Chain
+    networks:
+      - name: Mainnet
+        chainid: 100
+        id: gnosis-main
+        host: https://rpc.gnosischain.com/
+        explorer: https://api.gnosisscan.io/api
   - name: Arbitrum
     networks:
       - name: Mainnet

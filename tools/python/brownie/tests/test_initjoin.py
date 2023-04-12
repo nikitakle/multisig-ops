@@ -1,6 +1,8 @@
 import brownie
+from brownie import Contract
 import time
 import pytest
+import json
 
 
 def test_deploy(deploy):
@@ -43,3 +45,14 @@ def test_create_and_join(helper, ldo, weth, caller, ordered_token_list):
     sortTokens, sortAmounts = helper.sortAmountsByAddresses(tokens, amounts)
     tx = helper.createAndJoinWeightedPool("LDO/WETH", "B-50LDO-50WETH", sortTokens, [], sortAmounts, [50,50], 300, b"how 'bout some pepper?")
     return tx
+
+def test_2_pools_same_salt(ordered_token_list, caller, factory, helper, weth, ldo):
+    tx = helper.createWeightedPool("Test name", "TEST", ordered_token_list, [], [50, 50], 300, b"same same")
+    poolAddress = tx.events["PoolCreated"]["pool"]
+    with open("abis/WeightedPool.json", "r") as f:
+        pool = Contract.from_abi("WeightedPool", poolAddress, json.load(f))
+    ## second one
+    tx = helper.createWeightedPool("Test name", "TEST", ordered_token_list, [], [50, 50], 300, b"same same")
+    poolAddress = tx.events["PoolCreated"]["pool"]
+    with open("abis/WeightedPool.json", "r") as f:
+        pool = Contract.from_abi("WeightedPool", poolAddress, json.load(f))
