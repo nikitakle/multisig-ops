@@ -81,4 +81,19 @@ interface ILinearPool is IBasePool {
      * See https://forum.balancer.fi/t/reentrancy-vulnerability-scope-expanded/4345 for reference.
      */
     function setSwapFeePercentage(uint256 swapFeePercentage) external;
+        function allowance(
+        address owner,
+        address spender
+    ) external view returns (uint256);
+
+    function approve(address spender, uint256 amount) external returns (bool);
+
+    function balanceOf(address account) external view returns (uint256);
+
+    function decimals() external view returns (uint8);
+
+    function decreaseAllowance(
+        address spender,
+        uint256 amount
+    ) external returns (bool);
 }

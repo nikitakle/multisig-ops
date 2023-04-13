@@ -35,7 +35,7 @@ for token in tokens.values():
         poolId = bbeusdId
     else:
         poolId = token.getPoolId()
-    print (f"processing {token.name()} at {token.address}")
+    print(f"processing {token.name()} at {token.address}")
     encoded = encode_abi(types, [255, token.balanceOf(multisig)])
     (lineartokens, yyy, zzz) = vault.getPoolTokens(poolId)
 
