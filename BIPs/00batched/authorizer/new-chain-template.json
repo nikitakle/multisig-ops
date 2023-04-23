@@ -13,15 +13,10 @@
       "setTargets": "lm"
     },
     "deployments": [
-      "20230206-weighted-pool-v3",
-      "20230206-composable-stable-pool-v3",
-      "20220404-erc4626-linear-pool-v2",
-      "20220908-weighted-pool-v2",
-      "20220609-stable-pool-v2",
-      "20221122-composable-stable-pool-v2",
-      "20221207-aave-rebalanced-linear-pool-v3",
-      "20220425-unbutton-aave-linear-pool",
-      "20230206-aave-rebalanced-linear-pool-v4"
+      "20230320-weighted-pool-v4",
+      "20230320-composable-stable-pool-v4",
+      "20230409-erc4626-linear-pool-v4",
+      "20230411-managed-pool-v2"
     ]
   },
   {
@@ -57,9 +52,9 @@
       "gnosis": 100
     },
     "function_caller_map": {
-      "addTokenToGauge(address,address,address)": "lm"
+      "add_reward(address,address)": "lm"
     },
-    "deployments": ["20220527-child-chain-gauge-token-adder"]
+    "deployments": ["20230316-child-chain-gauge-factory-v2"]
   },
   {
     "chain_map": {
